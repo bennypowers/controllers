@@ -1,22 +1,23 @@
 import type { ReactiveController, ReactiveControllerHost } from 'lit';
 
-export type Reducer<T = unknown> = (state: T, action: Action) => T;
-export type Action = { type: string };
+export type Reducer<T, A> = (state: T, action: A) => T;
 
-export class ReducerController<T = unknown> implements ReactiveController {
+export class ReducerController<T = unknown, A = unknown> implements ReactiveController {
   public state: T;
 
   constructor(
     private host: ReactiveControllerHost,
-    public reducer: Reducer<T>,
+    public reducer: Reducer<T, A>,
     public initialState: T,
   ) {
     this.host.addController(this);
     this.state = initialState;
   }
 
-  dispatch(action: Action): void {
+  dispatch(action: A): void {
     this.state = this.reducer(this.state, action);
     this.host.requestUpdate();
   }
+
+  hostUpdate?():void
 }

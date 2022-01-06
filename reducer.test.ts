@@ -4,8 +4,10 @@ import { ReducerController } from './reducer.js';
 
 describe('ReducerController', function() {
   describe('with a counter reducer', function() {
+    type CountAction = { type: 'reset'|'increment'|'decrement' };
+
     class Host extends ReactiveElement {
-      public count = new ReducerController(this, function reducer(state, action) {
+      public count = new ReducerController(this, function reducer(state, action: CountAction) {
         switch (action.type) {
           case 'reset':
             return 0;
@@ -17,7 +19,7 @@ describe('ReducerController', function() {
       }, 0);
     }
 
-    let host; Host;
+    let host: Host;
 
     beforeEach(async function() {
       const tag = defineCE(class extends Host {});
@@ -25,24 +27,22 @@ describe('ReducerController', function() {
       await host.updateComplete;
     });
 
-    it('updates with state', async function() {
-      expect(host.count.state).to.equal(0);
-    });
+    it('updates with state', () => expect(host.count.state).to.equal(0));
 
     describe('dispatching increment', function() {
-      beforeEach(async function() {
-        host.count.dispatch({ type: 'increment' });
-        await host.updateComplete;
-      });
-      it('increments count', function() {
+      beforeEach(() => host.count.dispatch({ type: 'increment' }));
+      it('increments count', () => {
         expect(host.count.state).to.equal(1);
+      });
+      describe('then dispatching reset', function() {
+        beforeEach(() => host.count.dispatch({ type: 'reset' }));
+        it('resets count', function() {
+          expect(host.count.state).to.equal(0);
+        });
       });
     });
     describe('dispatching decrement', function() {
-      beforeEach(async function() {
-        host.count.dispatch({ type: 'decrement' });
-        await host.updateComplete;
-      });
+      beforeEach(() => host.count.dispatch({ type: 'decrement' }));
       it('decrements count', function() {
         expect(host.count.state).to.equal(-1);
       });
