@@ -1,0 +1,20 @@
+{
+  "name": "@pwrs/controllers",
+  "type": "module",
+  "version": "1.0.0",
+  "description": "Some Reactive Controllers",
+  "main": "index.js",
+  "scripts": {
+    "test": "wtr"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@open-wc/testing": "^3.0.3",
+    "@pwrs/eslint-config": "^0.0.25",
+    "@web/dev-server-esbuild": "^0.2.16",
+    "@web/test-runner": "^0.13.25",
+    "lit": "^2.1.1",
+    "typescript": "^4.5.4"
+  }
+}
